@@ -107,7 +107,7 @@
 
     .layout {
       margin-top: 24px;
-      grid-template-columns: 1fr 320px;
+      grid-template-columns: 1fr;
       align-items: start;
     }
 
@@ -510,35 +510,8 @@
   <div class="container">
 
     <section class="hero">
-      <div class="brand"><span class="brand-mark"></span> DISC Assessment Premium</div>
       <h1>Questionário Comportamental DISC</h1>
-      <p class="subtitle">
-        Versão premium para GitHub Pages com perguntas uma a uma, barra de progresso, gráfico de resultados,
-        relatório final, exportação em PDF e botão “Relatório para RH”.
-      </p>
 
-      <div class="hero-grid">
-        <div class="glass">
-          <strong style="font-size:1.1rem; display:block; margin-bottom:10px;">O que esta página inclui</strong>
-          <div class="tag-row">
-            <span class="tag">Visual moderno</span>
-            <span class="tag">Perguntas passo a passo</span>
-            <span class="tag">Barra de progresso</span>
-            <span class="tag">Gráfico DISC</span>
-            <span class="tag">Relatório final</span>
-            <span class="tag">Relatório para RH</span>
-            <span class="tag">Exportar PDF</span>
-            <span class="tag">Integração opcional</span>
-          </div>
-        </div>
-
-        <div class="glass stats">
-          <div class="stat"><strong>20</strong><span class="muted">Perguntas</span></div>
-          <div class="stat"><strong>4</strong><span class="muted">Perfis</span></div>
-          <div class="stat"><strong>1 a 1</strong><span class="muted">Navegação</span></div>
-          <div class="stat"><strong>RH</strong><span class="muted">Ajuste profissional</span></div>
-        </div>
-      </div>
     </section>
 
     <div class="layout">
@@ -603,26 +576,6 @@
         </div>
       </main>
 
-      <aside class="side-stack">
-        <section class="glass">
-          <strong style="display:block; font-size:1.05rem;">Perfis DISC</strong>
-          <div class="mini-list">
-            <div class="mini-item"><strong>D — Dominância</strong>Foco em ação, decisão e resultado.</div>
-            <div class="mini-item"><strong>I — Influência</strong>Foco em comunicação, entusiasmo e persuasão.</div>
-            <div class="mini-item"><strong>S — Estabilidade</strong>Foco em apoio, calma, harmonia e consistência.</div>
-            <div class="mini-item"><strong>C — Conformidade</strong>Foco em rigor, análise, estrutura e qualidade.</div>
-          </div>
-        </section>
-
-        <section class="glass">
-          <strong style="display:block; font-size:1.05rem;">Integrações opcionais</strong>
-          <div class="mini-list">
-            <div class="mini-item"><strong>Google Sheets</strong>Usa um Web App do Google Apps Script e cola o URL em <code>WEBHOOK_URL</code>.</div>
-            <div class="mini-item"><strong>Email</strong>Podes usar Make, Zapier, Formspree ou outro webhook.</div>
-            <div class="mini-item"><strong>GitHub Pages</strong>Publica este ficheiro como <code>index.html</code>.</div>
-          </div>
-        </section>
-      </aside>
     </div>
 
     <section id="resultSection" class="result-section panel">
@@ -645,10 +598,7 @@
 
             <div class="toolbar" style="margin-top:18px;">
               <button class="btn btn-primary" id="downloadPdfBtn" type="button">Descarregar PDF</button>
-              <button class="btn btn-soft" id="printBtn" type="button">Imprimir</button>
-              <button class="btn btn-soft" id="downloadJsonBtn" type="button">Exportar JSON</button>
               <button class="btn btn-rh" id="rhBtn" type="button">Relatório para RH</button>
-              <button class="btn btn-soft" id="sendBtn" type="button">Enviar para integração</button>
             </div>
 
             <div class="notice">
@@ -1510,10 +1460,7 @@
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
 
-    document.getElementById("downloadJsonBtn").addEventListener("click", exportJSON);
     document.getElementById("downloadPdfBtn").addEventListener("click", downloadPDF);
-    document.getElementById("printBtn").addEventListener("click", () => window.print());
-    document.getElementById("sendBtn").addEventListener("click", sendToWebhook);
 
     document.getElementById("rhBtn").addEventListener("click", () => {
       if (!validateAll()) {
