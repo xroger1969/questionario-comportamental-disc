@@ -740,5 +740,791 @@
     </div>
 
   </div>
+
+  <script>
+    const WEBHOOK_URL = "";
+
+    const questions = [
+      ["Quando assumes uma tarefa nova, o que mais se parece contigo?", ["Assumir o controlo", "Criar entusiasmo", "Garantir equilíbrio", "Analisar primeiro"]],
+      ["Em reuniões, normalmente és a pessoa que...", ["Vai direto ao assunto", "Fala com facilidade", "Escuta com calma", "Questiona detalhes"]],
+      ["O que te motiva mais no trabalho?", ["Conquista", "Reconhecimento", "Estabilidade", "Qualidade"]],
+      ["Quando tens de decidir sob pressão...", ["Decides depressa", "Manténs energia positiva", "Manténs a calma", "Queres dados"]],
+      ["Como os outros tendem a ver-te?", ["Determinado", "Sociável", "Paciente", "Metódico"]],
+      ["Num projeto de grupo, o teu comportamento mais natural é...", ["Assumir liderança", "Criar bom ambiente", "Dar apoio consistente", "Garantir processo e qualidade"]],
+      ["Qual destas situações combina mais contigo?", ["Desafios difíceis", "Ambientes animados", "Ambientes previsíveis", "Ambientes organizados"]],
+      ["Quando algo corre mal, a tua tendência é...", ["Resolver já", "Falar com os outros", "Procurar estabilidade", "Investigar a causa"]],
+      ["Em relação ao ritmo de trabalho...", ["Rapidez", "Variedade", "Constância", "Rigor"]],
+      ["O que mais valorizas numa equipa?", ["Eficiência", "Entusiasmo", "Confiança", "Competência"]],
+      ["Quando comunicas, costumas ser...", ["Direto", "Expressivo", "Acolhedor", "Lógico"]],
+      ["O que mais te incomoda?", ["Falta de resultado", "Frieza relacional", "Conflito e instabilidade", "Desorganização"]],
+      ["Em relação a regras...", ["Podem ser ajustadas", "Não gosto de rigidez", "Trazem estabilidade", "Devem ser claras"]],
+      ["Quando conheces pessoas novas...", ["Percebo rapidamente o contexto", "Relaciono-me com facilidade", "Sou cordial mas cauteloso", "Observo primeiro"]],
+      ["Em momentos de mudança...", ["Vejo oportunidade", "Vejo novidade", "Preciso de adaptação", "Preciso de estrutura"]],
+      ["Qual destas descrições te representa melhor?", ["Assertivo", "Carismático", "Estável", "Analítico"]],
+      ["O que mais procuras num trabalho?", ["Autonomia", "Relacionamento", "Segurança", "Critérios claros"]],
+      ["Como reages a objetivos exigentes?", ["Fico estimulado", "Fico entusiasmado", "Prefiro metas realistas", "Quero critérios de medição"]],
+      ["Na resolução de problemas, preferes...", ["Agir já", "Debater ideias", "Ouvir todos", "Estudar a fundo"]],
+      ["No geral, o teu estilo tende a ser...", ["Foco em resultados", "Foco em pessoas", "Foco em harmonia", "Foco em qualidade"]]
+    ];
+
+    const optionDescriptions = [
+      ["Tendes a avançar depressa, liderar e decidir.", "Gostas de envolver os outros e gerar energia.", "Preferes manter harmonia e segurança no grupo.", "Queres compreender bem antes de agir."],
+      ["Priorizas objetividade e resultado.", "Conectas com os outros e influencias o ambiente.", "Observas, acolhes e cooperas.", "Procuras clareza, lógica e precisão."],
+      ["Metas, progresso e superação.", "Interação, aprovação e influência.", "Segurança, previsibilidade e confiança.", "Excelência, rigor e consistência."],
+      ["Preferes agir e resolver.", "Tentas envolver e motivar.", "Procuras equilíbrio e estabilidade.", "Precisas de informação antes da conclusão."],
+      ["Forte, firme e objetivo.", "Expansivo, persuasivo e caloroso.", "Leal, calmo e cooperante.", "Cuidadoso, analítico e preciso."],
+      ["Organizas a ação e puxas pelo ritmo.", "Aproximas pessoas e motivas a equipa.", "Ajudas o grupo com estabilidade.", "Estruturas, verificas e corriges."],
+      ["Gostas de metas altas e exigentes.", "Gostas de dinamismo e interação.", "Preferes estabilidade e continuidade.", "Valorizas estrutura e clareza."],
+      ["Agir rápido para eliminar o problema.", "Processar em voz alta e mobilizar pessoas.", "Evitar escalada e restaurar harmonia.", "Analisar a origem para corrigir bem."],
+      ["Gosto de velocidade e decisão.", "Gosto de dinamismo e contacto.", "Prefiro estabilidade e regularidade.", "Prefiro controlo, revisão e precisão."],
+      ["Resultados, rapidez e entrega.", "Energia, relação e boa comunicação.", "Cooperação, apoio e estabilidade.", "Qualidade, método e organização."],
+      ["Vais ao ponto e cortas rodeios.", "Transmitis energia e envolvimento.", "Escutas e manténs o tom calmo.", "Explicas com clareza e detalhe."],
+      ["Lentidão, indecisão e baixa eficácia.", "Ambientes sem interação ou entusiasmo.", "Tensão, ruturas e mudanças bruscas.", "Erros, improviso excessivo e falta de padrão."],
+      ["Se bloqueiam o objetivo, mexes nelas.", "Preferes espontaneidade e flexibilidade.", "Regras ajudam a manter harmonia.", "As regras importam e precisam de coerência."],
+      ["Queres avançar e perceber o essencial.", "Gostas de conversar e criar ligação.", "Levas algum tempo a abrir-te.", "Preferes avaliar antes de confiar."],
+      ["Mudança pode significar avanço.", "A mudança traz energia e possibilidades.", "Quero tempo para ajustar com calma.", "Quero clareza, plano e método."],
+      ["Tomas posição com firmeza.", "Tens facilidade em influenciar pessoas.", "Transmitis calma e constância.", "Pensamento lógico e criterioso."],
+      ["Liberdade para decidir e agir.", "Interação, reconhecimento e visibilidade.", "Continuidade, confiança e estabilidade.", "Estrutura, qualidade e padrão."],
+      ["Gosto da meta e do desafio.", "Se houver energia e envolvimento, entro forte.", "Gosto de previsibilidade no percurso.", "Preciso saber como avaliar bem."],
+      ["Resolver rápido e ajustar depois.", "Trocar impressões com outros.", "Equilibrar pontos de vista com calma.", "Analisar bem antes de agir."],
+      ["Objetivos, performance e decisão.", "Ligação, energia e influência.", "Estabilidade, apoio e cooperação.", "Rigor, análise e melhoria."]
+    ];
+
+    const codeMap = ["D", "I", "S", "C"];
+
+    const profiles = {
+      D: {
+        code: "D",
+        name: "Dominância",
+        badgeClass: "badge-d",
+        intro: "Perfil orientado para ação, decisão e resultado.",
+        traits: [
+          "Direto, firme e orientado para metas.",
+          "Toma decisões com rapidez e assume a dianteira.",
+          "Valoriza autonomia, impacto e progresso.",
+          "Lida bem com pressão e desafios exigentes.",
+          "Procura eficácia e movimento constante."
+        ],
+        strengths: [
+          "Capacidade de liderança.",
+          "Rapidez na tomada de decisão.",
+          "Foco em resultado.",
+          "Coragem para agir.",
+          "Energia para enfrentar desafios."
+        ],
+        challenges: [
+          "Pode parecer brusco ou impaciente.",
+          "Pode ouvir menos do que devia.",
+          "Pode avançar antes de analisar o suficiente.",
+          "Pode exigir demais de si e dos outros."
+        ],
+        communication: [
+          "Prefere mensagens objetivas e diretas.",
+          "Valoriza clareza, síntese e próxima ação.",
+          "Responde bem a propostas com foco em resultado."
+        ],
+        environment: [
+          "Ambientes com autonomia e objetivos claros.",
+          "Contextos desafiantes e orientados para performance.",
+          "Situações em que possa decidir e avançar."
+        ],
+        development: [
+          "Trabalhar mais a escuta ativa.",
+          "Equilibrar rapidez com análise.",
+          "Ajustar o tom para não soar excessivamente duro.",
+          "Delegar mais em vez de centralizar tudo."
+        ]
+      },
+      I: {
+        code: "I",
+        name: "Influência",
+        badgeClass: "badge-i",
+        intro: "Perfil relacional, persuasivo e entusiasta.",
+        traits: [
+          "Comunicativo, sociável e expressivo.",
+          "Cria entusiasmo e motiva os outros.",
+          "Valoriza reconhecimento e interação.",
+          "Convence com facilidade e presença.",
+          "Gosta de ambientes vivos e dinâmicos."
+        ],
+        strengths: [
+          "Boa capacidade de comunicação.",
+          "Facilidade em inspirar e envolver.",
+          "Persuasão natural.",
+          "Boa leitura social do ambiente.",
+          "Energia positiva e carisma."
+        ],
+        challenges: [
+          "Pode dispersar-se com facilidade.",
+          "Pode prometer mais do que concretiza.",
+          "Pode evitar estrutura excessiva.",
+          "Pode negligenciar detalhe e seguimento."
+        ],
+        communication: [
+          "Responde bem a calor humano e linguagem positiva.",
+          "Valoriza abertura, empatia e reconhecimento.",
+          "Gosta de interação viva e espaço para expressão."
+        ],
+        environment: [
+          "Ambientes colaborativos e com contacto humano.",
+          "Situações com visibilidade e interação.",
+          "Contextos criativos e dinâmicos."
+        ],
+        development: [
+          "Melhorar foco e consistência.",
+          "Dar mais atenção a detalhes e prazos.",
+          "Organizar melhor prioridades.",
+          "Garantir execução até ao fim."
+        ]
+      },
+      S: {
+        code: "S",
+        name: "Estabilidade",
+        badgeClass: "badge-s",
+        intro: "Perfil calmo, leal e cooperante.",
+        traits: [
+          "Paciente e estável.",
+          "Bom ouvinte e cooperante.",
+          "Valoriza confiança e continuidade.",
+          "Leal, consistente e disponível.",
+          "Prefere ambientes previsíveis e respeitosos."
+        ],
+        strengths: [
+          "Confiabilidade.",
+          "Capacidade de apoio e escuta.",
+          "Paciência sob tensão.",
+          "Boa cooperação em equipa.",
+          "Constância na execução."
+        ],
+        challenges: [
+          "Pode resistir à mudança.",
+          "Pode evitar conflito em excesso.",
+          "Pode demorar a posicionar-se.",
+          "Pode ceder demasiado para manter paz."
+        ],
+        communication: [
+          "Prefere tom calmo, claro e respeitoso.",
+          "Valoriza segurança e previsibilidade.",
+          "Responde bem a espaço para pensar sem pressão."
+        ],
+        environment: [
+          "Ambientes estáveis e cooperativos.",
+          "Equipas com respeito e confiança.",
+          "Ritmo consistente e baixa agressividade relacional."
+        ],
+        development: [
+          "Ganhar assertividade.",
+          "Aceitar melhor contextos de mudança.",
+          "Expressar necessidades com mais clareza.",
+          "Assumir posição mais cedo quando necessário."
+        ]
+      },
+      C: {
+        code: "C",
+        name: "Conformidade",
+        badgeClass: "badge-c",
+        intro: "Perfil analítico, rigoroso e orientado para qualidade.",
+        traits: [
+          "Analítico, lógico e cuidadoso.",
+          "Procura rigor e precisão.",
+          "Avalia antes de concluir.",
+          "Valoriza método e estrutura.",
+          "Mantém padrão elevado de qualidade."
+        ],
+        strengths: [
+          "Pensamento crítico.",
+          "Organização e método.",
+          "Precisão na execução.",
+          "Boa avaliação de risco e detalhe.",
+          "Compromisso com qualidade."
+        ],
+        challenges: [
+          "Pode analisar demasiado antes de agir.",
+          "Pode ser excessivamente crítico.",
+          "Pode ter dificuldade com improviso.",
+          "Pode atrasar decisão por querer mais certeza."
+        ],
+        communication: [
+          "Prefere informação clara, estruturada e lógica.",
+          "Valoriza factos, critérios e coerência.",
+          "Responde bem a explicações detalhadas."
+        ],
+        environment: [
+          "Ambientes organizados e previsíveis.",
+          "Critérios claros de qualidade.",
+          "Espaço para análise e melhoria contínua."
+        ],
+        development: [
+          "Ganhar agilidade na decisão.",
+          "Evitar perfeccionismo excessivo.",
+          "Simplificar a comunicação quando necessário.",
+          "Aceitar melhor margem prática em vez de ideal absoluto."
+        ]
+      }
+    };
+
+    const blendSummaries = {
+      "D-I": "Combinação forte de iniciativa com persuasão. Tende a liderar, mover pessoas e avançar com energia.",
+      "D-S": "Combinação de firmeza com estabilidade. Procura resultado sem perder continuidade e sentido de lealdade.",
+      "D-C": "Combinação de exigência com rigor. Tende a querer performance com controlo e qualidade.",
+      "I-D": "Combinação de carisma com impulso. Influencia, entusiasma e toma iniciativa com rapidez.",
+      "I-S": "Combinação relacional e acolhedora. Conecta-se com pessoas com simpatia, proximidade e cooperação.",
+      "I-C": "Combinação de expressão com estrutura. Comunica bem, mas valoriza qualidade e organização.",
+      "S-D": "Combinação de consistência com firmeza. Cooperante, mas capaz de assumir posição quando necessário.",
+      "S-I": "Combinação de serenidade com sociabilidade. Cria ligação de forma gentil, calma e confiável.",
+      "S-C": "Combinação de estabilidade com método. Perfil fiável, cuidadoso, consistente e disciplinado.",
+      "C-D": "Combinação de rigor com exigência. Valoriza padrão alto, decisão e eficácia.",
+      "C-I": "Combinação de análise com presença relacional. Tende a comunicar bem sem perder estrutura.",
+      "C-S": "Combinação de método com estabilidade. Valoriza segurança, ordem, qualidade e previsibilidade."
+    };
+
+    const rhFit = {
+      D: {
+        bestActivities: [
+          "Negociação de alto ritmo e fecho de negócio.",
+          "Liderança comercial, desenvolvimento de negócio e expansão.",
+          "Gestão de objetivos, operações com pressão e tomada de decisão rápida.",
+          "Coordenação de equipas orientadas para metas e performance.",
+          "Contextos com autonomia, competição e responsabilidade por resultado."
+        ],
+        bestSectors: [
+          "Vendas B2B e business development.",
+          "Direção comercial e liderança operacional.",
+          "Empreendedorismo e criação de negócios.",
+          "Consultoria orientada a resultados.",
+          "Ambientes de crescimento e expansão."
+        ],
+        leastActivities: [
+          "Rotina administrativa repetitiva sem autonomia.",
+          "Funções que exigem consenso prolongado antes de agir.",
+          "Papéis excessivamente passivos ou de suporte contínuo sem poder de decisão.",
+          "Tarefas hiper-detalhadas com pouca margem de iniciativa."
+        ],
+        leastSectors: [
+          "Ambientes muito burocráticos e lentos.",
+          "Funções altamente rotineiras sem meta nem influência.",
+          "Papéis com forte microgestão e baixa autonomia."
+        ]
+      },
+      I: {
+        bestActivities: [
+          "Relacionamento com clientes, apresentação e influência.",
+          "Vendas consultivas, marketing, eventos e networking.",
+          "Formação, dinamização de equipas e comunicação institucional.",
+          "Papéis com interação humana constante e visibilidade.",
+          "Contextos criativos, promocionais e de ligação entre pessoas."
+        ],
+        bestSectors: [
+          "Vendas, marketing e publicidade.",
+          "Turismo, hospitalidade e atendimento premium.",
+          "Formação e desenvolvimento de comunidade.",
+          "Relações públicas, recrutamento e customer success.",
+          "Ambientes comerciais com forte contacto humano."
+        ],
+        leastActivities: [
+          "Análise solitária e prolongada sem contacto com pessoas.",
+          "Funções com rigidez extrema e pouca expressão pessoal.",
+          "Tarefas repetitivas e silenciosas durante longos períodos.",
+          "Papéis em que quase tudo depende de detalhe técnico minucioso."
+        ],
+        leastSectors: [
+          "Backoffice excessivamente isolado.",
+          "Ambientes muito frios, rígidos ou hiper-burocráticos.",
+          "Funções de auditoria ou controlo sem componente relacional forte."
+        ]
+      },
+      S: {
+        bestActivities: [
+          "Apoio ao cliente com continuidade e confiança.",
+          "Coordenação estável de equipas e acompanhamento de processos.",
+          "Funções de suporte, fidelização, acompanhamento e serviço.",
+          "Contextos que valorizam paciência, consistência e relacionamento duradouro.",
+          "Papéis em que a estabilidade e a cooperação são centrais."
+        ],
+        bestSectors: [
+          "Recursos humanos em acompanhamento e integração.",
+          "Customer care, pós-venda e fidelização.",
+          "Saúde, apoio social, educação e apoio ao utilizador.",
+          "Administração estável com forte componente relacional.",
+          "Ambientes de equipa cooperativos e previsíveis."
+        ],
+        leastActivities: [
+          "Negociação extremamente agressiva e constante.",
+          "Ambientes de conflito permanente ou mudança contínua sem estrutura.",
+          "Funções com pressão alta e decisões muito bruscas.",
+          "Papéis que exigem confronto frequente e ritmo imprevisível."
+        ],
+        leastSectors: [
+          "Contextos ultra-competitivos e agressivos.",
+          "Ambientes voláteis com mudança diária sem suporte.",
+          "Funções de pressão comercial dura sem relação de continuidade."
+        ]
+      },
+      C: {
+        bestActivities: [
+          "Análise, controlo, planeamento e melhoria de processos.",
+          "Qualidade, compliance, auditoria e validação técnica.",
+          "Funções que exigem precisão documental e raciocínio estruturado.",
+          "Pesquisa, diagnóstico, reporting e organização de standards.",
+          "Contextos em que rigor, critério e método são decisivos."
+        ],
+        bestSectors: [
+          "Finanças, controlo, auditoria e compliance.",
+          "Qualidade, engenharia de processo e operações técnicas.",
+          "Dados, análise, planeamento e documentação.",
+          "Jurídico-operacional, regulamentação e áreas normativas.",
+          "Backoffice técnico com exigência elevada de precisão."
+        ],
+        leastActivities: [
+          "Venda muito improvisada e relacional sem estrutura.",
+          "Ambientes caóticos com mudança constante e pouca definição.",
+          "Papéis baseados em exposição social contínua e improviso.",
+          "Funções em que a rapidez interessa mais do que a precisão."
+        ],
+        leastSectors: [
+          "Ambientes excessivamente informais e desestruturados.",
+          "Funções com baixa clareza de critérios.",
+          "Contextos em que quase tudo depende de improviso e pressão social."
+        ]
+      }
+    };
+
+    let currentQuestion = 0;
+    const answers = Array(questions.length).fill(null);
+    let chartInstance = null;
+
+    const qText = document.getElementById("questionText");
+    const optionsContainer = document.getElementById("optionsContainer");
+    const qCounter = document.getElementById("questionCounter");
+    const progressText = document.getElementById("progressText");
+    const progressPercent = document.getElementById("progressPercent");
+    const progressFill = document.getElementById("progressFill");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const finishBtn = document.getElementById("finishBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const errorBox = document.getElementById("errorBox");
+    const resultSection = document.getElementById("resultSection");
+    const rhSection = document.getElementById("rhSection");
+    const submitBanner = document.getElementById("submitBanner");
+
+    function renderQuestion() {
+      const [text, optionTitles] = questions[currentQuestion];
+
+      qText.textContent = text;
+      qCounter.textContent = `Pergunta ${currentQuestion + 1} / ${questions.length}`;
+      progressText.textContent = `Pergunta ${currentQuestion + 1} de ${questions.length}`;
+
+      const p = Math.round(((currentQuestion + 1) / questions.length) * 100);
+      progressPercent.textContent = `${p}%`;
+      progressFill.style.width = `${p}%`;
+
+      optionsContainer.innerHTML = optionTitles.map((title, index) => {
+        const code = codeMap[index];
+        const active = answers[currentQuestion] === code ? "active" : "";
+        return `
+          <div class="option ${active}" data-profile="${code}">
+            <div class="option-badge">${String.fromCharCode(65 + index)}</div>
+            <div class="option-content">
+              <strong>${title}</strong>
+              <span>${optionDescriptions[currentQuestion][index]}</span>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      [...optionsContainer.querySelectorAll(".option")].forEach(el => {
+        el.addEventListener("click", () => {
+          answers[currentQuestion] = el.dataset.profile;
+          errorBox.style.display = "none";
+          renderQuestion();
+        });
+      });
+
+      prevBtn.disabled = currentQuestion === 0;
+      const isLast = currentQuestion === questions.length - 1;
+      nextBtn.classList.toggle("hidden", isLast);
+      finishBtn.classList.toggle("hidden", !isLast);
+    }
+
+    function validateCurrent() {
+      if (!answers[currentQuestion]) {
+        errorBox.style.display = "block";
+        return false;
+      }
+      errorBox.style.display = "none";
+      return true;
+    }
+
+    function validateAll() {
+      return answers.every(Boolean);
+    }
+
+    function calculateScores() {
+      const scores = { D: 0, I: 0, S: 0, C: 0 };
+      answers.forEach(a => {
+        if (a) scores[a]++;
+      });
+      return scores;
+    }
+
+    function sortProfiles(scores) {
+      return Object.entries(scores).sort((a, b) => b[1] - a[1]);
+    }
+
+    function pct(score) {
+      return Math.round((score / questions.length) * 100);
+    }
+
+    function setList(id, items) {
+      document.getElementById(id).innerHTML = items.map(x => `<li>${x}</li>`).join("");
+    }
+
+    function renderChart(values) {
+      const ctx = document.getElementById("discChart");
+
+      if (chartInstance) chartInstance.destroy();
+
+      chartInstance = new Chart(ctx, {
+        type: "radar",
+        data: {
+          labels: ["Dominância", "Influência", "Estabilidade", "Conformidade"],
+          datasets: [{
+            label: "Perfil DISC",
+            data: values,
+            borderColor: "rgba(110,168,254,1)",
+            backgroundColor: "rgba(110,168,254,0.20)",
+            borderWidth: 2,
+            pointBackgroundColor: ["#ef4444", "#f59e0b", "#22c55e", "#3b82f6"],
+            pointBorderColor: "#fff",
+            pointRadius: 4
+          }]
+        },
+        options: {
+          plugins: {
+            legend: {
+              labels: { color: "#edf2ff" }
+            }
+          },
+          scales: {
+            r: {
+              suggestedMin: 0,
+              suggestedMax: 100,
+              grid: { color: "rgba(255,255,255,0.12)" },
+              angleLines: { color: "rgba(255,255,255,0.12)" },
+              pointLabels: { color: "#edf2ff" },
+              ticks: {
+                color: "#afbbd9",
+                backdropColor: "transparent",
+                stepSize: 20
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function buildRhReport(primaryCode, secondaryCode) {
+      const base = rhFit[primaryCode];
+      const sec = rhFit[secondaryCode];
+
+      setList("bestFitList", [
+        ...base.bestActivities,
+        `Traço secundário relevante: ${secondaryCode} acrescenta nuances adicionais ao encaixe profissional.`
+      ]);
+
+      setList("bestSectorsList", [
+        ...base.bestSectors,
+        sec.bestSectors[0]
+      ]);
+
+      setList("leastFitList", base.leastActivities);
+      setList("leastSectorsList", base.leastSectors);
+
+      document.getElementById("rhSummary").innerHTML =
+        `<strong>Aviso para RH:</strong> este bloco sugere apenas compatibilidades prováveis com base em tendências comportamentais. Nunca deve ser usado isoladamente para contratar, excluir, promover ou rotular pessoas. Cruza sempre este resultado com requisitos reais do cargo, entrevista estruturada, experiência, evidência de desempenho, referências e critérios do posto.`;
+    }
+
+    function renderResults() {
+      const scores = calculateScores();
+      const sorted = sortProfiles(scores);
+
+      const primaryCode = sorted[0][0];
+      const secondaryCode = sorted[1][0];
+
+      const primary = profiles[primaryCode];
+      const secondary = profiles[secondaryCode];
+
+      const fullName = document.getElementById("fullName").value.trim();
+      const company = document.getElementById("company").value.trim();
+
+      const d = pct(scores.D);
+      const i = pct(scores.I);
+      const s = pct(scores.S);
+      const c = pct(scores.C);
+
+      document.getElementById("reportName").textContent =
+        fullName ? `Relatório DISC — ${fullName}` : "Relatório DISC";
+
+      document.getElementById("reportIntro").textContent =
+        `${primary.intro} Perfil secundário: ${secondary.name}. ${blendSummaries[`${primaryCode}-${secondaryCode}`] || "Perfil misto com traços combinados dos dois estilos predominantes."}${company ? ` Contexto identificado: ${company}.` : ""}`;
+
+      document.getElementById("badgeRow").innerHTML = `
+        <span class="profile-badge ${primary.badgeClass}">${primary.code} — ${primary.name}</span>
+        <span class="profile-badge ${secondary.badgeClass}">${secondary.code} — ${secondary.name}</span>
+      `;
+
+      document.getElementById("scoreD").textContent = `${d}%`;
+      document.getElementById("scoreI").textContent = `${i}%`;
+      document.getElementById("scoreS").textContent = `${s}%`;
+      document.getElementById("scoreC").textContent = `${c}%`;
+
+      document.getElementById("fillD").style.width = `${d}%`;
+      document.getElementById("fillI").style.width = `${i}%`;
+      document.getElementById("fillS").style.width = `${s}%`;
+      document.getElementById("fillC").style.width = `${c}%`;
+
+      setList("traitsList", [
+        ...primary.traits,
+        `Perfil secundário com influência de ${secondary.name.toLowerCase()}.`
+      ]);
+      setList("strengthsList", primary.strengths);
+      setList("challengesList", primary.challenges);
+      setList("communicationList", primary.communication);
+      setList("environmentList", primary.environment);
+      setList("developmentList", primary.development);
+
+      renderChart([d, i, s, c]);
+      buildRhReport(primaryCode, secondaryCode);
+
+      resultSection.style.display = "block";
+      resultSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    async function sendToWebhook() {
+      submitBanner.style.display = "none";
+
+      if (!validateAll()) {
+        alert("Responde primeiro ao questionário completo.");
+        return;
+      }
+
+      if (!WEBHOOK_URL) {
+        alert("Ainda não foi configurado nenhum WEBHOOK_URL no código.");
+        return;
+      }
+
+      const scores = calculateScores();
+      const sorted = sortProfiles(scores);
+
+      const payload = {
+        timestamp: new Date().toISOString(),
+        name: document.getElementById("fullName").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        company: document.getElementById("company").value.trim(),
+        answers,
+        scores,
+        percentages: {
+          D: pct(scores.D),
+          I: pct(scores.I),
+          S: pct(scores.S),
+          C: pct(scores.C)
+        },
+        primaryProfile: sorted[0][0],
+        secondaryProfile: sorted[1][0],
+        primaryProfileName: profiles[sorted[0][0]].name,
+        secondaryProfileName: profiles[sorted[1][0]].name
+      };
+
+      try {
+        const res = await fetch(WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        if (!res.ok) throw new Error();
+
+        submitBanner.style.display = "block";
+      } catch (e) {
+        alert("Não foi possível enviar os dados para a integração configurada.");
+      }
+    }
+
+    function exportJSON() {
+      if (!validateAll()) {
+        alert("Responde primeiro ao questionário completo.");
+        return;
+      }
+
+      const scores = calculateScores();
+      const sorted = sortProfiles(scores);
+
+      const data = {
+        timestamp: new Date().toISOString(),
+        respondent: {
+          name: document.getElementById("fullName").value.trim(),
+          email: document.getElementById("email").value.trim(),
+          company: document.getElementById("company").value.trim()
+        },
+        answers,
+        scores,
+        percentages: {
+          D: pct(scores.D),
+          I: pct(scores.I),
+          S: pct(scores.S),
+          C: pct(scores.C)
+        },
+        primaryProfile: sorted[0][0],
+        secondaryProfile: sorted[1][0]
+      };
+
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "resultado-disc.json";
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    async function downloadPDF() {
+      if (!validateAll()) {
+        alert("Responde primeiro ao questionário completo.");
+        return;
+      }
+
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      const scores = calculateScores();
+      const sorted = sortProfiles(scores);
+
+      const primary = profiles[sorted[0][0]];
+      const secondary = profiles[sorted[1][0]];
+
+      const name = document.getElementById("fullName").value.trim() || "Respondente";
+      const email = document.getElementById("email").value.trim();
+      const company = document.getElementById("company").value.trim();
+
+      const d = pct(scores.D);
+      const i = pct(scores.I);
+      const s = pct(scores.S);
+      const c = pct(scores.C);
+
+      let y = 16;
+
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(18);
+      doc.text("Relatório DISC", 14, y);
+      y += 10;
+
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(11);
+      doc.text(`Nome: ${name}`, 14, y);
+      y += 7;
+
+      if (email) {
+        doc.text(`Email: ${email}`, 14, y);
+        y += 7;
+      }
+
+      if (company) {
+        doc.text(`Empresa: ${company}`, 14, y);
+        y += 7;
+      }
+
+      doc.text(`Perfil principal: ${primary.code} - ${primary.name}`, 14, y);
+      y += 7;
+      doc.text(`Perfil secundário: ${secondary.code} - ${secondary.name}`, 14, y);
+      y += 10;
+
+      doc.text(`D ${d}% | I ${i}% | S ${s}% | C ${c}%`, 14, y);
+      y += 10;
+
+      doc.setFont("helvetica", "bold");
+      doc.text("Resumo", 14, y);
+      y += 7;
+
+      doc.setFont("helvetica", "normal");
+      const summary = `${primary.intro} Perfil secundário: ${secondary.name}. ${blendSummaries[`${primary.code}-${secondary.code}`] || ""}`;
+      const lines = doc.splitTextToSize(summary, 180);
+      doc.text(lines, 14, y);
+      y += lines.length * 6 + 4;
+
+      doc.setFont("helvetica", "bold");
+      doc.text("Pontos fortes", 14, y);
+      y += 7;
+
+      doc.setFont("helvetica", "normal");
+      primary.strengths.forEach(item => {
+        doc.text(`- ${item}`, 16, y);
+        y += 6;
+        if (y > 275) {
+          doc.addPage();
+          y = 20;
+        }
+      });
+
+      y += 4;
+      doc.setFont("helvetica", "bold");
+      doc.text("Aviso RH", 14, y);
+      y += 7;
+
+      doc.setFont("helvetica", "normal");
+      const rh = "Este resultado serve como apoio ao desenvolvimento e não deve ser usado isoladamente para decidir contratação, promoção ou exclusão.";
+      const rhLines = doc.splitTextToSize(rh, 180);
+      doc.text(rhLines, 14, y);
+
+      doc.save("relatorio-disc.pdf");
+    }
+
+    prevBtn.addEventListener("click", () => {
+      if (currentQuestion > 0) {
+        currentQuestion--;
+        renderQuestion();
+      }
+    });
+
+    nextBtn.addEventListener("click", () => {
+      if (!validateCurrent()) return;
+      if (currentQuestion < questions.length - 1) {
+        currentQuestion++;
+        renderQuestion();
+      }
+    });
+
+    finishBtn.addEventListener("click", () => {
+      if (!validateCurrent()) return;
+      renderResults();
+    });
+
+    resetBtn.addEventListener("click", () => {
+      answers.fill(null);
+      currentQuestion = 0;
+      renderQuestion();
+      resultSection.style.display = "none";
+      rhSection.style.display = "none";
+      errorBox.style.display = "none";
+      submitBanner.style.display = "none";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    document.getElementById("downloadJsonBtn").addEventListener("click", exportJSON);
+    document.getElementById("downloadPdfBtn").addEventListener("click", downloadPDF);
+    document.getElementById("printBtn").addEventListener("click", () => window.print());
+    document.getElementById("sendBtn").addEventListener("click", sendToWebhook);
+
+    document.getElementById("rhBtn").addEventListener("click", () => {
+      if (!validateAll()) {
+        alert("Responde primeiro ao questionário completo.");
+        return;
+      }
+      rhSection.style.display = "block";
+      rhSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    renderQuestion();
+  </script>
 </body>
 </html>
